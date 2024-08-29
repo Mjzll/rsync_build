@@ -76,22 +76,26 @@ jobs:
         tar -xzvf rsync-3.2.7.tar.gz
         cd rsync-3.2.7
 
+    - name: Download and extract OpenSSL 1.0.2 source code
+      run: |
+        wget https://www.openssl.org/source/openssl-1.0.2u.tar.gz
+        tar -xzvf openssl-1.0.2u.tar.gz
+        cd openssl-1.0.2u
+
     - name: Configure and build OpenSSL for ARM64
       run: |
-        wget https://www.openssl.org/source/openssl-1.1.1k.tar.gz
-        tar -xzvf openssl-1.1.1k.tar.gz
-        cd openssl-1.1.1k
-        CC=/usr/bin/aarch64-linux-gnu-gcc MACHINE=aarch64 perl ./Configure linux-aarch64
+        cd openssl-1.0.2u
+        CC=/usr/bin/aarch64-linux-gnu-gcc ./Configure linux-aarch64 --prefix=/usr/local/openssl --openssldir=/usr/local/openssl
         make
         sudo make install
 
     - name: Build rsync for ARM64 with static linking
       run: |
         cd rsync-3.2.7
-        export CFLAGS="-I/usr/local/include"
-        export LDFLAGS="-L/usr/local/lib"
-        export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
-        CC=aarch64-linux-gnu-gcc CFLAGS="-static" ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl=/usr/local
+        export CFLAGS="-I/usr/local/openssl/include"
+        export LDFLAGS="-L/usr/local/openssl/lib"
+        export PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
+        CC=aarch64-linux-gnu-gcc CFLAGS="-static" ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl=/usr/local/openssl
         make
 
     - name: Upload artifact
