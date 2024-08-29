@@ -1,4 +1,4 @@
-name: Build rsync
+name: Build rsync 3.1.2
 
 on: [push]
 
@@ -13,18 +13,23 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential libssl-dev zlib1g-dev libacl1-dev libpopt-dev libxxhash-dev
+        sudo apt-get install -y build-essential libssl-dev zlib1g-dev libacl1-dev libpopt-dev libxxhash-dev libzstd-dev
 
     - name: Download and build rsync
       run: |
-        wget https://download.samba.org/pub/rsync/src/rsync-3.2.7.tar.gz
-        tar -xzvf rsync-3.2.7.tar.gz
-        cd rsync-3.2.7
-        ./configure --disable-shared --enable-static
+        wget https://download.samba.org/pub/rsync/src/rsync-3.1.2.tar.gz
+        tar -xzvf rsync-3.1.2.tar.gz
+        cd rsync-3.1.2
+        ./configure --disable-shared --enable-static LDFLAGS="-static"
         make
+
+    - name: Check if rsync is statically linked
+      run: |
+        file rsync-3.1.2/rsync
+        ldd rsync-3.1.2/rsync || echo "Static binary confirmed"
 
     - name: Upload binary
       uses: actions/upload-artifact@v2
       with:
         name: rsync
-        path: rsync-3.2.7/rsync
+        path: rsync-3.1.2/rsync
