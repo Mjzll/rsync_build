@@ -34,8 +34,7 @@ jobs:
         sudo apt-get install -y libxxhash-dev
         sudo apt-get install -y libzstd-dev
         sudo apt-get install -y liblz4-dev
-        sudo apt-get install openssl
-        sudo apt-get install libssl-dev
+        sudo apt-get install -y libssl-dev
         python3 -mpip install --user commonmark
 
     - name: Install zlib
@@ -80,6 +79,8 @@ jobs:
     - name: Build rsync for ARM with static linking
       run: |
         cd rsync-3.2.7
+        export CFLAGS="-I/usr/local/include"
+        export LDFLAGS="-L/usr/local/lib"
         CC=arm-linux-gnueabi-gcc CFLAGS="-static" ./configure --host=arm-linux-gnueabi --with-included-popt --with-included-zlib
         make
 
