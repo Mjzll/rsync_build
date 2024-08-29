@@ -44,6 +44,39 @@ jobs:
         CC=arm-linux-gnueabi-gcc ./configure --static
         make
         sudo make install
+    
+    - name: Install OpenSSL
+      run: |
+        wget https://www.openssl.org/source/openssl-1.1.1u.tar.gz
+        tar -xzvf openssl-1.1.1u.tar.gz
+        cd openssl-1.1.1u
+        ./Configure linux-armv4
+        make
+        sudo make install
+
+    - name: Install xxhash
+      run: |
+        wget https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.1.tar.gz
+        tar -xzvf v0.8.1.tar.gz
+        cd xxHash-0.8.1
+        make
+        sudo make install
+
+    - name: Install zstd
+      run: |
+        wget https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
+        tar -xzvf zstd-1.5.2.tar.gz
+        cd zstd-1.5.2
+        make
+        sudo make install
+
+    - name: Install lz4
+      run: |
+        wget https://github.com/lz4/lz4/archive/refs/tags/v1.9.3.tar.gz
+        tar -xzvf v1.9.3.tar.gz
+        cd lz4-1.9.3
+        make
+        sudo make install
         
     - name: Download and extract rsync source code
       run: |
