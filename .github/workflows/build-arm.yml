@@ -35,6 +35,15 @@ jobs:
         sudo apt-get install -y libzstd-dev
         sudo apt-get install -y liblz4-dev
         sudo apt-get install -y libssl-dev
+        sudo yum -y install epel-release
+        sudo yum -y install gcc g++ gawk autoconf automake python3-pip
+        sudo yum -y install acl libacl-devel
+        sudo yum -y install attr libattr-devel
+        sudo yum -y install xxhash-devel
+        sudo yum -y install libzstd-devel
+        sudo yum -y install lz4-devel
+        sudo yum -y install openssl-devel
+        python3 -mpip install --user commonmark
         
     - name: Install zlib
       run: |
@@ -45,22 +54,6 @@ jobs:
         make
         sudo make install
     
-    - name: Install OpenSSL
-      run: |
-        wget https://www.openssl.org/source/openssl-1.1.1u.tar.gz
-        tar -xzvf openssl-1.1.1u.tar.gz
-        cd openssl-1.1.1u
-        ./Configure linux-armv4
-        make
-        sudo make install
-
-    - name: Install xxhash
-      run: |
-        wget https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.1.tar.gz
-        tar -xzvf v0.8.1.tar.gz
-        cd xxHash-0.8.1
-        make
-        sudo make install
 
     - name: Install zstd
       run: |
@@ -70,13 +63,6 @@ jobs:
         make
         sudo make install
 
-    - name: Install lz4
-      run: |
-        wget https://github.com/lz4/lz4/archive/refs/tags/v1.9.3.tar.gz
-        tar -xzvf v1.9.3.tar.gz
-        cd lz4-1.9.3
-        make
-        sudo make install
         
     - name: Download and extract rsync source code
       run: |
