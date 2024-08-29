@@ -36,15 +36,6 @@ jobs:
         sudo apt-get install -y liblz4-dev
         sudo apt-get install -y libssl-dev
 
-    - name: Install zlib
-      run: |
-        wget http://www.zlib.net/zlib-1.2.11.tar.gz
-        tar -xzvf zlib-1.2.11.tar.gz
-        cd zlib-1.2.11
-        CC=arm-linux-gnueabi-gcc ./configure --static
-        make
-        sudo make install
-
     - name: Download and extract rsync source code
       run: |
         wget https://download.samba.org/pub/rsync/src/rsync-3.1.2.tar.gz
