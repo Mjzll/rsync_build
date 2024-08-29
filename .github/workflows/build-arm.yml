@@ -28,6 +28,22 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc-arm-linux-gnueabi make wget libpopt-dev
+        sudo apt-get install -y gcc g++ gawk autoconf automake python3-cmarkgfm
+        sudo apt-get install -y acl libacl1-dev
+        sudo apt-get install -y attr libattr1-dev
+        sudo apt-get install -y libxxhash-dev
+        sudo apt-get install -y libzstd-dev
+        sudo apt-get install -y liblz4-dev
+        sudo apt-get install -y libssl-dev
+
+    - name: Install zlib
+      run: |
+        wget http://www.zlib.net/zlib-1.2.11.tar.gz
+        tar -xzvf zlib-1.2.11.tar.gz
+        cd zlib-1.2.11
+        CC=arm-linux-gnueabi-gcc ./configure --static
+        make
+        sudo make install
 
     - name: Download and extract rsync source code
       run: |
