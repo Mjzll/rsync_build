@@ -92,7 +92,7 @@ jobs:
       run: |
         cd rsync-3.2.7
         export CFLAGS="-I/usr/local/openssl/include"
-        export LDFLAGS="-L/usr/local/openssl/lib"
+        export LDFLAGS="-L/usr/local/openssl/lib -Wl,-rpath,/usr/local/openssl/lib"
         export PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
         CC=aarch64-linux-gnu-gcc CFLAGS="-static" ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl=/usr/local/openssl
         make
