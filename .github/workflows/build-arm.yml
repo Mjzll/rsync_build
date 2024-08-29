@@ -90,8 +90,8 @@ jobs:
     - name: Build rsync for ARM64 with static linking
       run: |
         cd rsync-3.2.7
-        export CFLAGS="-I/usr/local/openssl/include/openssl"
-        export LDFLAGS="-L/usr/local/openssl/lib -Wl,-rpath,/usr/local/openssl/lib"
+        export CFLAGS="-I/usr/local/openssl/include"
+        export LDFLAGS="-L/usr/local/openssl/lib -Wl,-rpath,/usr/local/openssl/lib -static"
         export PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
         CC=aarch64-linux-gnu-gcc ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl=/usr/local/openssl
         make
