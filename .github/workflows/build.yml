@@ -1,0 +1,30 @@
+name: Build rsync
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libssl-dev zlib1g-dev libacl1-dev libpopt-dev
+
+    - name: Download and build rsync
+      run: |
+        wget https://download.samba.org/pub/rsync/src/rsync-3.2.7.tar.gz
+        tar -xzvf rsync-3.2.7.tar.gz
+        cd rsync-3.2.7
+        ./configure --disable-shared --enable-static
+        make
+
+    - name: Upload binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: rsync
+        path: rsync-3.2.7/rsync
