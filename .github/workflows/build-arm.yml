@@ -74,7 +74,6 @@ jobs:
       run: |
         wget https://download.samba.org/pub/rsync/src/rsync-3.2.7.tar.gz
         tar -xzvf rsync-3.2.7.tar.gz
-        cd rsync-3.2.7
 
     - name: Download and extract OpenSSL 3.3.1 source code
       run: |
