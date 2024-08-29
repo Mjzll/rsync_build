@@ -26,15 +26,6 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y gcc-arm-linux-gnueabi make wget libpopt-dev
-        sudo apt-get install -y gcc g++ gawk autoconf automake python3-cmarkgfm
-        sudo apt-get install -y acl libacl1-dev
-        sudo apt-get install -y attr libattr1-dev
-        sudo apt-get install -y libxxhash-dev
-        sudo apt-get install -y libzstd-dev
-        sudo apt-get install -y liblz4-dev
-        sudo apt-get install -y libssl-dev
         sudo yum -y install epel-release
         sudo yum -y install gcc g++ gawk autoconf automake python3-pip
         sudo yum -y install acl libacl-devel
@@ -44,7 +35,7 @@ jobs:
         sudo yum -y install lz4-devel
         sudo yum -y install openssl-devel
         python3 -mpip install --user commonmark
-        
+
     - name: Install zlib
       run: |
         wget https://github.com/madler/zlib/releases/download/v1.2.13/zlib-1.2.13.tar.gz
@@ -53,7 +44,8 @@ jobs:
         CC=arm-linux-gnueabi-gcc ./configure --static
         make
         sudo make install
-    
+
+  
 
     - name: Install zstd
       run: |
@@ -63,7 +55,7 @@ jobs:
         make
         sudo make install
 
-        
+
     - name: Download and extract rsync source code
       run: |
         wget https://download.samba.org/pub/rsync/src/rsync-3.2.7.tar.gz
