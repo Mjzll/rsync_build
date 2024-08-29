@@ -13,7 +13,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential libssl-dev zlib1g-dev libacl1-dev libpopt-dev
+        sudo apt-get install -y build-essential libssl-dev zlib1g-dev libacl1-dev libpopt-dev libxxhash-dev
 
     - name: Download and build rsync
       run: |
