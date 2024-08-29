@@ -90,7 +90,8 @@ jobs:
         cd rsync-3.2.7
         export CFLAGS="-I/usr/local/include"
         export LDFLAGS="-L/usr/local/lib"
-        CC=aarch64-linux-gnu-gcc CFLAGS="-static" ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl
+        export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
+        CC=aarch64-linux-gnu-gcc CFLAGS="-static" ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl=/usr/local
         make
 
     - name: Upload artifact
