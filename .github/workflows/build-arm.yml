@@ -47,18 +47,18 @@ jobs:
         
     - name: Download and extract rsync source code
       run: |
-        wget https://download.samba.org/pub/rsync/src/rsync-3.1.2.tar.gz
-        tar -xzvf rsync-3.1.2.tar.gz
-        cd rsync-3.1.2
+        wget https://download.samba.org/pub/rsync/src/rsync-3.2.7.tar.gz
+        tar -xzvf rsync-3.2.7.tar.gz
+        cd rsync-3.2.7
 
     - name: Build rsync for ARM with static linking
       run: |
-        cd rsync-3.1.2
-        CC=arm-linux-gnueabi-gcc ./configure --host=arm-linux-gnueabi --disable-shared --enable-static
-        make CFLAGS="-static"
+        cd rsync-3.2.7
+        CC=arm-linux-gnueabi-gcc CFLAGS="-static" ./configure --host=arm-linux-gnueabi
+        make
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: rsync-arm-static
-        path: rsync-3.1.2/rsync
+        path: rsync-3.2.7/rsync
