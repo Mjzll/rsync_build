@@ -72,8 +72,8 @@ jobs:
 
     - name: Download and extract rsync source code
       run: |
-        wget https://download.samba.org/pub/rsync/src/rsync-3.2.7.tar.gz
-        tar -xzvf rsync-3.2.7.tar.gz
+        wget https://download.samba.org/pub/rsync/src/rsync-3.1.2.tar.gz
+        tar -xzvf rsync-3.1.2.tar.gz
 
     - name: Download and extract OpenSSL 3.3.1 source code
       run: |
@@ -89,7 +89,7 @@ jobs:
 
     - name: Build rsync for ARM64 with static linking
       run: |
-        cd rsync-3.2.7
+        cd rsync-3.1.2
         export CFLAGS="-I/usr/local/openssl/include"
         export LDFLAGS="-L/usr/local/openssl/lib -static"
         export PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
@@ -100,4 +100,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: rsync-arm64-static
-        path: rsync-3.2.7/rsync
+        path: rsync-3.1.2/rsync
