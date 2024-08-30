@@ -1,4 +1,4 @@
-name: Build ARM64 rsync
+name: Build ARM64 rsync with musl
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
         sudo apt-get install -y libxxhash-dev
         sudo apt-get install -y libzstd-dev
         sudo apt-get install -y liblz4-dev
-        sudo apt-get install -y libssl-dev
+        sudo apt-get install -y libssl-dev musl musl-dev musl-tools
         python3 -m pip install --user commonmark
 
     - name: Install zlib
@@ -42,7 +42,7 @@ jobs:
         wget https://github.com/madler/zlib/releases/download/v1.2.13/zlib-1.2.13.tar.gz
         tar -xzvf zlib-1.2.13.tar.gz
         cd zlib-1.2.13
-        CC=aarch64-linux-gnu-gcc ./configure --static
+        CC=musl-gcc ./configure --static
         make
         sudo make install
 
@@ -51,7 +51,7 @@ jobs:
         wget https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.1.tar.gz
         tar -xzvf v0.8.1.tar.gz
         cd xxHash-0.8.1
-        CC=aarch64-linux-gnu-gcc make
+        CC=musl-gcc make
         sudo make install
 
     - name: Install zstd
@@ -59,7 +59,7 @@ jobs:
         wget https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
         tar -xzvf zstd-1.5.2.tar.gz
         cd zstd-1.5.2
-        CC=aarch64-linux-gnu-gcc make
+        CC=musl-gcc make
         sudo make install
 
     - name: Install lz4
@@ -67,7 +67,7 @@ jobs:
         wget https://github.com/lz4/lz4/archive/refs/tags/v1.9.3.tar.gz
         tar -xzvf v1.9.3.tar.gz
         cd lz4-1.9.3
-        CC=aarch64-linux-gnu-gcc make
+        CC=musl-gcc make
         sudo make install
 
     - name: Download and extract rsync source code
@@ -83,17 +83,17 @@ jobs:
     - name: Configure and build OpenSSL for ARM64
       run: |
         cd openssl-3.3.1
-        CC=/usr/bin/aarch64-linux-gnu-gcc ./Configure linux-aarch64 --prefix=/usr/local/openssl --openssldir=/usr/local/openssl no-shared
+        CC=/usr/bin/musl-gcc ./Configure linux-aarch64 --prefix=/usr/local/openssl --openssldir=/usr/local/openssl no-shared
         make
         sudo make install
 
-    - name: Build rsync for ARM64 with static linking
+    - name: Build rsync for ARM64 with musl libc
       run: |
         cd rsync-3.1.2
         export CFLAGS="-I/usr/local/openssl/include"
         export LDFLAGS="-L/usr/local/openssl/lib -static"
         export PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
-        CC=aarch64-linux-gnu-gcc ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl=/usr/local/openssl
+        CC=musl-gcc ./configure --host=aarch64-linux-gnu --with-included-popt --with-included-zlib --with-openssl=/usr/local/openssl
         make
 
     - name: Upload artifact
